@@ -28,12 +28,6 @@ class Calculator:
     def pressEquals(self):
         self._current = self._operator(self._accumulator, self._current)
 
-    def opPlus(a,b):
-        return a + b;
-
-    def opMinus(a,b):
-        return a - b;
-
 
 class TestCalc( unittest.TestCase ):
 
