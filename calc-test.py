@@ -10,11 +10,8 @@ class Calculator:
     def display(self):
         return str( self._current )
 
-    def pressOne(self):
-        self._current = 1
-
-    def pressTwo(self):
-        self._current = 2
+    def pressDigit(self, digit):
+        self._current = digit
 
     def pressPlus(self):
         self._accumulator = self._current
@@ -56,17 +53,17 @@ class TestCalc( unittest.TestCase ):
         self.assertEqual("0", self.c.display())
 
     def testShouldReturnOneWhenOneIsPressed(self):
-        self.c.pressOne();
+        self.c.pressDigit(1);
         self.assertEqual("1", self.c.display())
 
     def testShouldReturnTwoWhenOnePlusOne(self):
-        self.c.pressOne();
+        self.c.pressDigit(1);
         self.assertEqual("1", self.c.display())
 
         self.c.pressPlus();
         self.assertEqual("1", self.c.display())
 
-        self.c.pressOne();
+        self.c.pressDigit(1);
         self.assertEqual("1", self.c.display())
 
         self.c.pressEquals();
@@ -74,14 +71,14 @@ class TestCalc( unittest.TestCase ):
 
     def testMinus(self):
         self.c.pressMinus()
-        self.c.pressOne()
+        self.c.pressDigit(1)
         self.c.pressEquals()
         self.assertEqual("-1", self.c.display())
 
     def testMult(self):
-        self.c.pressTwo()
+        self.c.pressDigit(2)
         self.c.pressMult()
-        self.c.pressTwo()
+        self.c.pressDigit(2)
         self.c.pressEquals()
         self.assertEqual("4", self.c.display(), "2*2=4")
 
