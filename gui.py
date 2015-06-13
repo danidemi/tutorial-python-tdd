@@ -56,23 +56,19 @@ class Application(Frame):
         self.DigitBtn[8]["command"] = lambda: self.pressDigit(8)
         self.DigitBtn[9]["command"] = lambda: self.pressDigit(9)
 
-    def pressDigit(self, digit):
-        self.calculator.pressDigit(digit)
+    def update(self):
         self.Display.delete(0, END)
         self.Display.insert(0, self.calculator.display())
         print(self.calculator.display())
+
+    def pressDigit(self, digit):
+        self.calculator.pressDigit(digit)
 
     def pressPlus(self):
         self.calculator.pressPlus()
-        self.Display.delete(0, END)
-        self.Display.insert(0, self.calculator.display())
-        print(self.calculator.display())
 
     def pressEqual(self):
         self.calculator.pressEquals()
-        self.Display.delete(0, END)
-        self.Display.insert(0, self.calculator.display())
-        print(self.calculator.display())
 
     def createWidgets(self):
         self.QUIT = Button(self)
@@ -91,6 +87,7 @@ class Application(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.calculator=Calculator()
+        self.calculator.addObserver(self)
         self.pack()
         self.createWidgets2()
 

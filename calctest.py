@@ -7,6 +7,14 @@ class Calculator:
         self._accumulator = 0
         self._current = 0
         self._newOp = False
+        self.observers = []
+
+    def addObserver(self, observer):
+        self.observers = self.observers + [observer]
+
+    def _update(self):
+        for observer in self.observers:
+            observer.update()
 
     def display(self):
         return str( self._current )
@@ -27,24 +35,34 @@ class Calculator:
         else:
             self._current = self._current * 10 + theDigit
 
+        self._update()
+
 
     def pressPlus(self):
         self._accumulator = self._current
         self._operator = lambda a,c: a+c
         self._newOp = True
 
+        self._update()
+
     def pressMinus(self):
         self._accumulator = self._current
         self._operator = lambda a,c: a-c
         self._newOp = True
+
+        self._update()
 
     def pressMult(self):
         self._accumulator = self._current
         self._operator = lambda a,c: a*c
         self._newOp = True
 
+        self._update()
+
     def pressEquals(self):
         self._current = self._operator(self._accumulator, self._current)
+
+        self._update()
 
 class CalcError(Exception):
     def __init__(self, text):
