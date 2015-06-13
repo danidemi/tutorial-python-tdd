@@ -14,18 +14,18 @@ class Calculator:
     def pressDigit(self, digit):
 
         try:
-
             theDigit = int(digit)
-            if(not theDigit in range(0,9)):
-                raise CalcError(str(digit) + " not a digit")
-
-            if(self._newOp):
-                self._current = theDigit
-                self._newOp = False
-            else:
-                self._current = self._current * 10 + theDigit
         except Exception as e:
-            raise CalcError(str(digit) + " not a digit")
+            raise CalcError(str(digit) + " not an int")
+
+        if(not theDigit in range(0,10)):
+            raise CalcError(str(digit) + " not in 0..9 range")
+
+        if(self._newOp):
+            self._current = theDigit
+            self._newOp = False
+        else:
+            self._current = self._current * 10 + theDigit
 
 
     def pressPlus(self):
