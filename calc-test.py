@@ -20,10 +20,10 @@ class Calculator:
                 raise CalcError(str(digit) + " not a digit")
 
             if(self._newOp):
-                self._current = int(digit)
+                self._current = theDigit
                 self._newOp = False
             else:
-                self._current = self._current * 10 + int(digit)
+                self._current = self._current * 10 + theDigit
         except Exception as e:
             raise CalcError(str(digit) + " not a digit")
 
