@@ -13,13 +13,20 @@ class Calculator:
     def pressOne(self):
         self._current = 1
 
+    def pressTwo(self):
+        self._current = 2
+
     def pressPlus(self):
         self._accumulator = self._current
-        self._operator = lambda x,y: x+y
+        self._operator = lambda a,c: a+c
 
     def pressMinus(self):
         self._accumulator = self._current
-        self._operator = lambda x,y: x-y
+        self._operator = lambda a,c: a-c
+
+    def pressMult(self):
+        self._accumulator = self._current
+        self._operator = lambda a,c: a*c
 
     def pressEquals(self):
         self._current = self._operator(self._accumulator, self._current)
@@ -33,6 +40,12 @@ class Calculator:
 
 class TestCalc( unittest.TestCase ):
 
+    def setUp(self):
+        self.c = Calculator()
+
+    def tearDown(self):
+        self.c = None
+
     def test_work(self):
         print(self)
 
@@ -40,36 +53,37 @@ class TestCalc( unittest.TestCase ):
         self.assertTrue(not False)
 
     def testShouldShowZeroWhenInitialized(self):
-        c = Calculator()
-        self.assertEqual("0", c.display())
+        self.assertEqual("0", self.c.display())
 
     def testShouldReturnOneWhenOneIsPressed(self):
-        c = Calculator()
-        c.pressOne();
-        self.assertEqual("1", c.display())
+        self.c.pressOne();
+        self.assertEqual("1", self.c.display())
 
     def testShouldReturnTwoWhenOnePlusOne(self):
-        c = Calculator()
+        self.c.pressOne();
+        self.assertEqual("1", self.c.display())
 
-        c.pressOne();
-        self.assertEqual("1", c.display())
+        self.c.pressPlus();
+        self.assertEqual("1", self.c.display())
 
-        c.pressPlus();
-        self.assertEqual("1", c.display())
+        self.c.pressOne();
+        self.assertEqual("1", self.c.display())
 
-        c.pressOne();
-        self.assertEqual("1", c.display())
-
-        c.pressEquals();
-        self.assertEqual("2", c.display())
+        self.c.pressEquals();
+        self.assertEqual("2", self.c.display())
 
     def testMinus(self):
-        c = Calculator()
+        self.c.pressMinus()
+        self.c.pressOne()
+        self.c.pressEquals()
+        self.assertEqual("-1", self.c.display())
 
-        c.pressMinus();
-        c.pressOne();
-        c.pressEquals();
-        self.assertEqual("-1", c.display())
+    def testMult(self):
+        self.c.pressTwo()
+        self.c.pressMult()
+        self.c.pressTwo()
+        self.c.pressEquals()
+        self.assertEqual("4", self.c.display(), "2*2=4")
 
 
 t = TestCalc()
