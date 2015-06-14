@@ -1,81 +1,12 @@
 import unittest
 import inspect
-
-class Calculator:
-
-    def __init__(self):
-        self._accumulator = 0
-        self._current = 0
-        self._newOp = False
-        self.observers = []
-
-    def addObserver(self, observer):
-        self.observers = self.observers + [observer]
-
-    def _update(self):
-        for observer in self.observers:
-            observer.update()
-
-    def display(self):
-        return str( self._current )
-
-    def pressDigit(self, digit):
-
-        try:
-            theDigit = int(digit)
-        except Exception as e:
-            raise CalcError(str(digit) + " not an int")
-
-        if(not theDigit in range(0,10)):
-            raise CalcError(str(digit) + " not in 0..9 range")
-
-        if(self._newOp):
-            self._current = theDigit
-            self._newOp = False
-        else:
-            self._current = self._current * 10 + theDigit
-
-        self._update()
-
-
-    def pressPlus(self):
-        self._accumulator = self._current
-        self._operator = lambda a,c: a+c
-        self._newOp = True
-
-        self._update()
-
-    def pressMinus(self):
-        self._accumulator = self._current
-        self._operator = lambda a,c: a-c
-        self._newOp = True
-
-        self._update()
-
-    def pressMult(self):
-        self._accumulator = self._current
-        self._operator = lambda a,c: a*c
-        self._newOp = True
-
-        self._update()
-
-    def pressEquals(self):
-        self._current = self._operator(self._accumulator, self._current)
-
-        self._update()
-
-class CalcError(Exception):
-    def __init__(self, text):
-        self.value = text
-
-    def __str__(self):
-        return self.value
+from calculator_model import CalculatorModel, CalcError
 
 
 class TestCalc( unittest.TestCase ):
 
     def setUp(self):
-        self.c = Calculator()
+        self.c = CalculatorModel()
 
     def tearDown(self):
         self.c = None
@@ -90,40 +21,40 @@ class TestCalc( unittest.TestCase ):
         self.assertEqual("0", self.c.display())
 
     def testShouldReturnOneWhenOneIsPressed(self):
-        self.c.pressDigit(1);
+        self.c.press_digit(1);
         self.assertEqual("1", self.c.display())
 
     def testShouldReturnTwoWhenOnePlusOne(self):
-        self.c.pressDigit(1);
+        self.c.press_digit(1);
         self.assertEqual("1", self.c.display())
 
-        self.c.pressPlus();
+        self.c.press_plus();
         self.assertEqual("1", self.c.display())
 
-        self.c.pressDigit(1);
+        self.c.press_digit(1);
         self.assertEqual("1", self.c.display())
 
-        self.c.pressEquals();
+        self.c.press_equals();
         self.assertEqual("2", self.c.display())
 
     def testMinus(self):
-        self.c.pressMinus()
-        self.c.pressDigit(1)
-        self.c.pressEquals()
+        self.c.press_minus()
+        self.c.press_digit(1)
+        self.c.press_equals()
         self.assertEqual("-1", self.c.display())
 
     def testMult(self):
-        self.c.pressDigit(2)
-        self.c.pressMult()
-        self.c.pressDigit(2)
-        self.c.pressEquals()
+        self.c.press_digit(2)
+        self.c.press_mult()
+        self.c.press_digit(2)
+        self.c.press_equals()
         self.assertEqual("4", self.c.display(), "2*2=4")
 
     def testShouldRefuseStrings(self):
-        self.assertRaises(CalcError, self.c.pressDigit, "aas")
+        self.assertRaises(CalcError, self.c.press_digit, "aas")
 
     def testShouldRefuseMoreThanOneDigit(self):
-        self.assertRaises(CalcError, self.c.pressDigit, 99)
+        self.assertRaises(CalcError, self.c.press_digit, 99)
 
 
 t = TestCalc()
