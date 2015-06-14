@@ -6,6 +6,7 @@ class CalculatorModel:
         self._newOp = False
         self.observers = []
 
+
     def addObserver(self, observer):
         self.observers = self.observers + [observer]
 
@@ -16,8 +17,27 @@ class CalculatorModel:
     def display(self):
         return str( self._current )
 
-    def press_digit(self, digit):
 
+    def press_digit(self, digit):
+        """ A digit is pressed.
+
+        >>> import calculator_model
+        >>> c = calculator_model.CalculatorModel()
+        >>> c.display()
+        '0'
+        >>> c.press_digit(2)
+        >>> c.display()
+        '2'
+
+        A digit is a number between 0 and 9.
+
+        >>> import calculator_model
+        >>> c.press_digit("e")
+        Traceback (most recent call last):
+        ...
+        calculator_model.CalcError: e not an int
+
+        """
         try:
             theDigit = int(digit)
         except Exception as e:
@@ -67,3 +87,8 @@ class CalcError(Exception):
 
     def __str__(self):
         return self.value
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
