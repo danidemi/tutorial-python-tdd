@@ -2,6 +2,8 @@ import unittest
 
 class Contacts():
 
+    names = ["Alan", "Benjamin", "Charlotte"]
+
     def __init__(self):
         print("init")
 
@@ -10,17 +12,15 @@ class Contacts():
 
 class ContactsIterator():
 
-    names = ["Alan", "Benjamin", "Charlotte"]
-
     def __init__(self):
         self.i = 0;
 
     def __next__(self):
 
-        if(self.i == len(ContactsIterator.names)):
+        if(self.i == len(Contacts.names)):
             raise StopIteration
 
-        name = ContactsIterator.names[self.i]
+        name = Contacts.names[self.i]
         self.i = self.i+1
         return name
 
