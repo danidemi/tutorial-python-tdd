@@ -1,5 +1,12 @@
 import unittest
 
+def piDigits():
+    str = "3.14159265359"[2:]
+    for char in str:
+        yield char
+
+
+
 class Contacts():
 
     names = ["Alan", "Benjamin", "Charlotte"]
@@ -26,6 +33,17 @@ class ContactsIterator():
 
 
 class TestIdioms( unittest.TestCase ):
+
+    def test_pi_generator(self):
+        digits = []
+        for d in piDigits():
+            digits.append( d )
+
+        self.assertEqual( '1', digits[0] )
+        self.assertEqual( '4', digits[1] )
+        self.assertEqual( '1', digits[2] )
+        self.assertEqual( '5', digits[3] )
+
 
     def test_is(self):
 
