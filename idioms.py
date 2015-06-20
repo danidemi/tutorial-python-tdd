@@ -27,6 +27,26 @@ class ContactsIterator():
 
 class TestIdioms( unittest.TestCase ):
 
+    def test_is(self):
+
+        numberA = 5
+        numberB = 5
+
+        self.assertIs(numberA, numberB)
+        self.assertEqual(numberA, numberB)
+
+        stringA = "hello"
+        stringB = "hello"
+
+        self.assertIs(stringA, stringB)
+        self.assertEqual(stringA, stringB)
+
+        listA = [stringA, numberA]
+        listB = [stringB, numberB]
+
+        self.assertIsNot(listA, listB)
+        self.assertEqual(listA, listB)
+
     def test_contacts_as_iterable(self):
         contacts = Contacts();
 
