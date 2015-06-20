@@ -1,11 +1,28 @@
 import unittest
+import random
+
+class Mean:
+    def __init__(self, message):
+        self.message = message
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, a, b, c):
+        print("exit a=" + str(a) + ", b=" + str(b) + ", c=" + str(c) )
+        self.message = None
+
+    def getString(self):
+        if(random.random() > 0.5):
+            return self.message
+        else:
+            raise ArithmeticError("Mean error")
+
 
 def piDigits():
     str = "3.14159265359"[2:]
     for char in str:
         yield char
-
-
 
 class Contacts():
 
@@ -33,6 +50,14 @@ class ContactsIterator():
 
 
 class TestIdioms( unittest.TestCase ):
+
+    def test_mean_object(self):
+        try:
+            with Mean("I'm mean") as mean:
+                print(mean.getString())
+        except:
+            pass
+
 
     def test_pi_generator(self):
         digits = []
