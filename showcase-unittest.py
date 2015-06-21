@@ -1,5 +1,7 @@
 import unittest
 import sys
+import warnings
+import inspect
 
 class TestStringMethods(unittest.TestCase):
 
@@ -61,6 +63,27 @@ class TestStringMethods(unittest.TestCase):
         with self.assertRaisesRegex(FileNotFoundError, ".+No such file or directory:.+"):
             file = open("does-not-exist", "r")
             file.read(100)
+
+    def test_warns(self):
+
+        with self.assertWarns(Warning):
+            MyClass().methodThatRaiseAWarning()
+
+        with self.assertWarns(Warning) as ctx:
+            MyClass().methodThatRaiseAWarning()
+        self.assertRegex( str(ctx.warning), ".+warning.+MyClass" )
+
+    def test_other_asserts(self):
+
+        self.assertAlmostEqual( 10.0/3.0, 3.33, delta=0.1)
+        self.assertGreater(4, 3)
+        self.assertLess(3, 4)
+        self.assertCountEqual( range(3,6), [3, 4, 5] )
+
+
+class MyClass():
+    def methodThatRaiseAWarning(self):
+        warnings.warn( "A warning from MyClass", Warning )
 
 if __name__ == '__main__':
     unittest.main()

@@ -51,6 +51,13 @@ class ContactsIterator():
 
 class TestIdioms( unittest.TestCase ):
 
+    def test_tuples(self):
+        ita = tuple( ["Italy", 60E6, "+39", "EU"] )
+        fra = tuple( ["France", 70E6, "+34", "EU"] )
+        txs = tuple( ["Texas", 8E6, "+1", "US"] )
+        self.assertEqual( ita[3], "EU" )
+        self.assertEqual( ita[3], fra[3] )
+
     def test_mean_object(self):
         try:
             with Mean("I'm mean") as mean:
