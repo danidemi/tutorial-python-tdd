@@ -80,10 +80,19 @@ class TestStringMethods(unittest.TestCase):
         self.assertLess(3, 4)
         self.assertCountEqual( range(3,6), [3, 4, 5] )
 
+        self.assertTupleEqual( tuple(["ITA", 60E6]), MyClass().italy() )
+
+
+        self.assertSetEqual( {4, 2, 1024, 64, 512, 32, 256, 8, 128, 16}, {2**x for x in range(1,11)} )
+        self.assertListEqual( [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2], [2**x for x in range(10,0,-1)] )
+
 
 class MyClass():
     def methodThatRaiseAWarning(self):
         warnings.warn( "A warning from MyClass", Warning )
+
+    def italy(self):
+        return tuple(["ITA", 60E6])
 
 if __name__ == '__main__':
     unittest.main()
